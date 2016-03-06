@@ -1,0 +1,29 @@
+body {
+    background-color: #2C3437;
+}
+
+.clock,
+.sector,
+.inner-circle {
+    position: absolute;
+}
+
+.clock-hour,
+.clock-min,
+.clock-sec {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+
+.inner-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    margin-left: 50px;
+    margin-top: 50px;
+    background-color: #2C3437;
+    color: white;
+    font-size: 50px;
+    padding: 13px 28px 37px 22px;
+}
