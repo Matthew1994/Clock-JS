@@ -2,7 +2,7 @@ body {
     background-color: #2C3437;
 }
 
-.clock,
+
 .sector,
 .inner-circle {
     position: absolute;

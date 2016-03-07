@@ -1,7 +1,69 @@
 $(document).ready(function($) {
+    
+
     run();
     setInterval(run, 1000);
+
+    
+    var clockElement = $('.clock');
+    
+    for(var i = 0; i < clockElement.length; i++) {
+        var clock = new Clock(clockElement[i]);
+    }
+
+
 });
+
+
+var Clock = function(node, width, height, backgroundColor, frontColor) {
+    this.node = node;
+    this.width = width;
+    this.height = height;
+    this.backgroundColor = backgroundColor;
+    this.frontColor = frontColor;
+    function createNode() {
+        return $('<div></div>').append($('<canvas></canvas>')).append($('<div></div>'));
+    }
+
+    function insertNode(node) {
+        $(node).append(createNode()).append(createNode()).append(createNode());        
+    }
+
+    this.run = function() {
+        
+    };
+
+    function setCss() {
+        $(node).css({
+            'width':'600px',
+            'height': '200px',
+            'background-color': '#ffffff'
+        });
+        $(node).children('*').children('*').css('position', 'absolute');
+        $(node).children('*').css({
+            'width':'200px', 
+            'height':'200px', 
+            'display':'inline-block',
+            'background-color': '#2Cffff',
+            'position': 'relative'
+        });
+        $(node).children('*').children('div').css({
+            'width': '50px',
+            'height': '50px',
+            'border-radius': '50px',
+            'margin-left': '50px',
+            'margin-top': '50px',
+            'background-color': '#2C34ff',
+            'color': 'white',
+            'font-size': '50px',
+            'padding': '13px 28px 37px 22px'
+        });
+    }
+
+    insertNode(this.node);
+    setCss();
+
+};
 
 
 
