@@ -1,5 +1,5 @@
 body {
-    background-color: #2C3437;
+    background-color: #ffffff;
 }
 
 
@@ -26,4 +26,11 @@ body {
     color: white;
     font-size: 50px;
     padding: 13px 28px 37px 22px;
+}
+
+.clock {
+    position : relative;
+    margin-left: 100px;
+    margin-top: 100px;
+    
 }

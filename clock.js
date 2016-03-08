@@ -1,10 +1,4 @@
 $(document).ready(function($) {
-    
-
-    run();
-    setInterval(run, 1000);
-
-    
     var clockElement = $('.clock');
     
     for(var i = 0; i < clockElement.length; i++) {
@@ -15,12 +9,14 @@ $(document).ready(function($) {
 });
 
 
-var Clock = function(node, width, height, backgroundColor, frontColor) {
+var Clock = function(node) {
     this.node = node;
-    this.width = width;
-    this.height = height;
-    this.backgroundColor = backgroundColor;
-    this.frontColor = frontColor;
+    this.width = $(node).attr('width') || "600px";
+    this.height = $(node).attr('height') || "200px";
+
+    this.backgroundColor = $(node).attr('backgroundColor') || '#2C3437';
+    this.frontColor = $(node).attr('frontColor') || "#ffff88";
+
     function createNode() {
         return $('<div></div>').append($('<canvas></canvas>')).append($('<div></div>'));
     }
@@ -29,43 +25,85 @@ var Clock = function(node, width, height, backgroundColor, frontColor) {
         $(node).append(createNode()).append(createNode()).append(createNode());        
     }
 
-    this.run = function() {
+    this.run = function(frontColor) {
+        var time = new Date();
+
+        var hour = $(node).children('*').children('div');
+
+        $(hour[0]).text(time.getHours().toString().length <= 1 ? "0" + time.getHours().toString() : time.getHours().toString());
+        $(hour[1]).text(time.getMinutes().toString().length <= 1 ? "0" + time.getMinutes().toString() : time.getMinutes().toString());
+        $(hour[2]).text(time.getSeconds().toString().length <= 1 ? "0" + time.getSeconds().toString() : time.getSeconds().toString());
+
+        var canvas = $(node).children('*').children('canvas');
         
+        for (var j = 0; j < canvas.length; j++) {
+            canvas[j].width = 200;
+            canvas[j].height = 200;
+            var context = canvas[j].getContext('2d');
+            var i;
+            if (j == 0) {
+                i = time.getHours();
+            }
+            if (j == 1) {
+                i = time.getMinutes();
+            }
+            if (j == 2) {
+                i = time.getSeconds();
+            }
+            context.arc(100, 100, 100, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI / 60 * i, false);
+            context.lineTo(100, 100);
+
+            context.fillStyle = frontColor;
+            
+            context.fill();
+        }
     };
 
-    function setCss() {
-        $(node).css({
+    this.setCss = function() {
+        $(this.node).css({
             'width':'600px',
-            'height': '200px',
-            'background-color': '#ffffff'
+            'height': '200px'            
         });
         $(node).children('*').children('*').css('position', 'absolute');
-        $(node).children('*').css({
+
+        $(this.node).children('*').css({
             'width':'200px', 
             'height':'200px', 
             'display':'inline-block',
-            'background-color': '#2Cffff',
+            'background-color': this.backgroundColor,
             'position': 'relative'
         });
-        $(node).children('*').children('div').css({
+
+        $(this.node).children('div:first').css({
+            'border-top-left-radius': '100px',
+            'border-bottom-left-radius': '100px',
+        });
+
+        $(this.node).children('div:last').css({
+            'border-top-right-radius': '100px',
+            'border-bottom-right-radius': '100px',
+        });
+
+        $(this.node).children('*').children('div').css({
             'width': '50px',
             'height': '50px',
             'border-radius': '50px',
             'margin-left': '50px',
             'margin-top': '50px',
-            'background-color': '#2C34ff',
+            'background-color': this.backgroundColor,
             'color': 'white',
             'font-size': '50px',
             'padding': '13px 28px 37px 22px'
         });
-    }
+    };
 
     insertNode(this.node);
-    setCss();
-
+    this.setCss();
+    this.run(this.frontColor);
+    setInterval(this.run, 1000, this.frontColor);
 };
 
-
+/*
 
 function run() {
     var time = new Date();
@@ -95,16 +133,11 @@ function run() {
         context.fill();
     }
 }
+*/
 
 
 
-
-window.onload = function() {
-    run();
-    setInterval(run, 1000);
-}
-
-/*
+/* javascript 原生
 function run() {
     var time = new Date();
     var hour = document.getElementsByClassName("inner-circle");
